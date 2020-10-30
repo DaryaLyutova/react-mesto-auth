@@ -1,30 +1,14 @@
-import headerLogo from './images/logo/logo.svg';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 
 function App() {
   return (
     <div className="App">
       <div className="page">
-        <header className="header">
-          <img src={headerLogo} alt="логотип" className="logo" />
-        </header>
-        <main className="content">
-          <section className="profile">
-            <img alt="Фото пользователя" className="avatar" />
-            <div className="avatar avatar__hover"></div>
-            <div className="profile-info">
-              <div className="profile-info__container">
-                <h1 className="profile-info__name">Жак-Ив Кусто</h1>
-                <button type="button" className="edit-button">Исследователь океана</button>
-              </div>
-              <p className="profile-info__activity"></p>
-            </div>
-            <button type="button" className="profile__add-button"></button>
-          </section>
-          <section className="places"></section>
-        </main>
-        <footer className="footer">
-          <p className="footer__copyright">&#169; 2020 Mesto Russia</p>
-        </footer>
+        <Header />
+        <Main />
+        <Footer />
         <form className="popup popup_info popup__form" name="user-info" novalidate>
           <div className="popup__container">
             <button type="button" className="popup__close-button"></button>
