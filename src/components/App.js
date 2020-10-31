@@ -11,6 +11,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  // const [isClose, setIsClose] = React.useState(true);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -22,6 +23,12 @@ function App() {
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+  }
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen();
+    setIsAddPlacePopupOpen();
+    setIsEditAvatarPopupOpen();
   }
 
   const fieldsetInfo = <> <input type="text" placeholder="Имя" className="popup__input popup__input_name" id="name-input" name="name"
@@ -49,15 +56,19 @@ function App() {
       <div className="page">
         <Header />
         <Main
-          onEditAvatar={handleEditAvatarClick} 
+          onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onEditProfile={handleEditProfileClick}
         />
         <Footer />
-        <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить" isOpen={isEditProfilePopupOpen}>{fieldsetInfo}</PopupWithForm>
-        <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить" isOpen={isAddPlacePopupOpen}>{fieldsetAddCard}</PopupWithForm>
-        <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да">{''}</PopupWithForm>
-        <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить" isOpen={isEditAvatarPopupOpen}>{fieldsetAvatar}</PopupWithForm>
+        <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить"
+          isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>{fieldsetInfo}</PopupWithForm>
+        <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить"
+          isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
+        <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
+          onClose={closeAllPopups}>{''}</PopupWithForm>
+        <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить"
+          isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>{fieldsetAvatar}</PopupWithForm>
         <ImagePopup />
 
       </div>
