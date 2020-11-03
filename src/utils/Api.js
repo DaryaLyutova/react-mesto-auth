@@ -80,10 +80,4 @@ const api = new Api({
   }, 
 }); 
 
-// const test = api.getUserInfo().then((data) => {
-//   console.log(data.name);
-// }).catch((err) => { 
-//   alert(err); 
-// }); 
-
 export default api;

@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../utils/Api';
+import Cards from './Cards';
 
 
 function Main(props) {
@@ -9,14 +10,27 @@ function Main(props) {
   const [userDescription, setUserDescription] = React.useState();
 
   React.useEffect(() => {
-     api.getUserInfo().then(function (data) {
-      console.log(data);
+    api.getUserInfo().then(function (data) {
       setUserAvatar(data.avatar);
       setUserName(data.name);
       setUserDescription(data.about);
     })
   }, []);
 
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getInitialCards().then((dataCards) => {
+      setCards(
+        dataCards.map((item )=> ({
+          id: item._id,
+          name: item.name,
+          src: item.link,
+          likes: item.likes
+        })
+      ))
+    })
+  }, []);
 
   return (
     <main className="content">
@@ -32,7 +46,9 @@ function Main(props) {
         </div>
         <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
       </section>
-      <section className="places"></section>
+      <section className="places">{
+        cards.map(({id, ...props}) => <Cards key={id} {...props} />)
+      }</section>
     </main>
   )
 }
