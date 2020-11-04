@@ -10,7 +10,7 @@ function Main(props) {
   const [userDescription, setUserDescription] = React.useState();
 
   React.useEffect(() => {
-    api.getUserInfo().then(function (data) {
+    api.getUserInfo().then((data) => {
       setUserAvatar(data.avatar);
       setUserName(data.name);
       setUserDescription(data.about);
@@ -21,6 +21,7 @@ function Main(props) {
 
   React.useEffect(() => {
     api.getInitialCards().then((dataCards) => {
+
       setCards(
         dataCards.map((item )=> ({
           id: item._id,
@@ -47,7 +48,7 @@ function Main(props) {
         <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
       </section>
       <section className="places">{
-        cards.map(({id, ...props}) => <Cards key={id} {...props} />)
+        cards.map((card) => <Cards key={card.id} card={card} onCardClick={props.onCardClick} onImageClick={props.onImageClick} />)
       }</section>
     </main>
   )

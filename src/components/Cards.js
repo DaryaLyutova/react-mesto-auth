@@ -1,14 +1,18 @@
 import React from 'react';
 
-function Cards({ src, name, likes }) {
-    return (<div class="place__container">
-        <img src={src} alt="Фотография места" class="place__image" />
-        <button type="button" class="place__delete"></button>
-        <div class="place__group">
-            <h2 class="place__title">{name}</h2>
-            <form class="place__like-container">
-                <button type="button" class="place__like"></button>
-                <p class="place__like-counter">{likes.length}</p>
+function Cards({ card, onCardClick, onImageClick }) {
+    function handleClick() {
+        onCardClick(card);
+        onImageClick();
+    }
+    return (<div className="place__container">
+        <img src={card.src} alt="Фотография места" className="place__image" onClick={handleClick} />
+        <button type="button" className="place__delete"></button>
+        <div className="place__group">
+            <h2 className="place__title">{card.name}</h2>
+            <form className="place__like-container">
+                <button type="button" className="place__like"></button>
+                <p className="place__like-counter">{card.likes.length}</p>
             </form>
         </div>
     </div>)
