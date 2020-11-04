@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../utils/Api';
-import Cards from './Cards';
+import Card from './Card';
 
 
 function Main(props) {
@@ -14,7 +14,9 @@ function Main(props) {
       setUserAvatar(data.avatar);
       setUserName(data.name);
       setUserDescription(data.about);
-    })
+    }).catch((err) => {
+      alert(err);
+    });
   }, []);
 
   const [cards, setCards] = React.useState([]);
@@ -23,14 +25,16 @@ function Main(props) {
     api.getInitialCards().then((dataCards) => {
 
       setCards(
-        dataCards.map((item )=> ({
+        dataCards.map((item) => ({
           id: item._id,
           name: item.name,
           src: item.link,
           likes: item.likes
         })
-      ))
-    })
+        ))
+    }).catch((err) => {
+      alert(err);
+    });
   }, []);
 
   return (
@@ -41,14 +45,14 @@ function Main(props) {
         <div className="profile-info">
           <div className="profile-info__container">
             <h1 className="profile-info__name">{userName}</h1>
-            <button type="button" className="edit-button" onClick={props.onEditProfile}></button>
+            <button type="button" className="edit-button" onClick={props.onEditProfile} />
           </div>
           <p className="profile-info__activity">{userDescription}</p>
         </div>
-        <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
+        <button type="button" className="profile__add-button" onClick={props.onAddPlace} />
       </section>
       <section className="places">{
-        cards.map((card) => <Cards key={card.id} card={card} onCardClick={props.onCardClick} onImageClick={props.onImageClick} />)
+        cards.map((card) => <Card key={card.id} card={card} onCardClick={props.onCardClick} onImageClick={props.onImageClick} />)
       }</section>
     </main>
   )

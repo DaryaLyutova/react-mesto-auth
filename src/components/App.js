@@ -37,25 +37,55 @@ function App() {
     setIsCardOpen();
   }
 
-  const fieldsetInfo = <> <input type="text" placeholder="Имя" className="popup__input popup__input_name" id="name-input" name="name"
-    minlength="2" maxlength="40" required />
-    <span className="popup__error" id="name-input-error"></span>
-    <input type="text" placeholder="О себе" className="popup__input popup__input_activity" id="activity-input"
-      name="about" minlength="2" maxlength="200" required />
-    <span className="popup__error" id="activity-input-error"></span> </>
-  const fieldsetAddCard = <>
-    <input type="text" placeholder="Название" className="popup__input popup__input_placename" id="placename-input"
-      name="name" minlength="1" maxlength="30" required />
-    <span className="popup__error" id="placename-input-error"></span>
-    <input type="url" placeholder="Ссылка на картинку" className="popup__input popup__input_link" id="email-input"
-      name="link" required />
-    <span className="popup__error" id="email-input-error"></span>
-  </>
-  const fieldsetAvatar = <>
-    <input type="url" placeholder="Ссылка на аватар" className="popup__input popup__input_avatar-link" id="avatar-input"
-      name="avatar" required />
-    <span className="popup__error" id="avatar-input-error"></span>
-  </>
+  const fieldsetInfo =
+    <>
+      <input type="text"
+        placeholder="Имя"
+        className="popup__input popup__input_name"
+        id="name-input"
+        name="name"
+        minlength="2"
+        maxlength="40"
+        required />
+      <span className="popup__error" id="name-input-error"></span>
+      <input type="text"
+        placeholder="О себе"
+        className="popup__input popup__input_activity"
+        id="activity-input"
+        name="about" minlength="2"
+        maxlength="200"
+        required />
+      <span className="popup__error" id="activity-input-error"></span>
+    </>
+  const fieldsetAddCard =
+    <>
+      <input type="text"
+        placeholder="Название"
+        className="popup__input popup__input_placename"
+        id="placename-input"
+        name="name"
+        minlength="1"
+        maxlength="30"
+        required />
+      <span className="popup__error" id="placename-input-error"></span>
+      <input type="url"
+        placeholder="Ссылка на картинку"
+        className="popup__input popup__input_link"
+        id="email-input"
+        name="link"
+        required />
+      <span className="popup__error" id="email-input-error"></span>
+    </>
+  const fieldsetAvatar =
+    <>
+      <input type="url"
+        placeholder="Ссылка на аватар"
+        className="popup__input popup__input_avatar-link"
+        id="avatar-input"
+        name="avatar"
+        required />
+      <span className="popup__error" id="avatar-input-error"></span>
+    </>
 
   return (
     <div className="App">
@@ -69,16 +99,41 @@ function App() {
           onImageClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить"
-          isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>{fieldsetInfo}</PopupWithForm>
-        <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить"
-          isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
-        <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
-          onClose={closeAllPopups}>{''}</PopupWithForm>
-        <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить"
-          isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>{fieldsetAvatar}</PopupWithForm>
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
-
+        <PopupWithForm
+          name="info"
+          title="Редактировать профиль"
+          buttonTitle="Сохранить"
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}>
+          {fieldsetInfo}
+        </PopupWithForm>
+        <PopupWithForm
+          name="add-card"
+          title="Новое место"
+          buttonTitle="Сохранить"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}>
+          {fieldsetAddCard}
+        </PopupWithForm>
+        <PopupWithForm
+          name="submit"
+          title="Вы уверены?"
+          buttonTitle="Да"
+          onClose={closeAllPopups}>
+          {''}
+        </PopupWithForm>
+        <PopupWithForm
+          name="avatar"
+          title="Обновить аватар"
+          buttonTitle="Сохранить"
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}>
+          {fieldsetAvatar}
+        </PopupWithForm>
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isOpen={isCardOpen} />
       </div>
     </div>
   );
