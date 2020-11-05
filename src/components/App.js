@@ -44,16 +44,17 @@ function App() {
         className="popup__input popup__input_name"
         id="name-input"
         name="name"
-        minlength="2"
-        maxlength="40"
+        minLength="2"
+        maxLength="40"
         required />
       <span className="popup__error" id="name-input-error"></span>
       <input type="text"
         placeholder="О себе"
         className="popup__input popup__input_activity"
         id="activity-input"
-        name="about" minlength="2"
-        maxlength="200"
+        name="about"
+        minLength="2"
+        maxLength="200"
         required />
       <span className="popup__error" id="activity-input-error"></span>
     </>
@@ -64,8 +65,8 @@ function App() {
         className="popup__input popup__input_placename"
         id="placename-input"
         name="name"
-        minlength="1"
-        maxlength="30"
+        minLength="1"
+        maxLength="30"
         required />
       <span className="popup__error" id="placename-input-error"></span>
       <input type="url"
@@ -99,41 +100,16 @@ function App() {
           onImageClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm
-          name="info"
-          title="Редактировать профиль"
-          buttonTitle="Сохранить"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}>
-          {fieldsetInfo}
-        </PopupWithForm>
-        <PopupWithForm
-          name="add-card"
-          title="Новое место"
-          buttonTitle="Сохранить"
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}>
-          {fieldsetAddCard}
-        </PopupWithForm>
-        <PopupWithForm
-          name="submit"
-          title="Вы уверены?"
-          buttonTitle="Да"
-          onClose={closeAllPopups}>
-          {''}
-        </PopupWithForm>
-        <PopupWithForm
-          name="avatar"
-          title="Обновить аватар"
-          buttonTitle="Сохранить"
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}>
-          {fieldsetAvatar}
-        </PopupWithForm>
-        <ImagePopup
-          card={selectedCard}
-          onClose={closeAllPopups}
-          isOpen={isCardOpen} />
+        <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить"
+          isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>{fieldsetInfo}</PopupWithForm>
+        <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить"
+          isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
+        <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
+          onClose={closeAllPopups}>{''}</PopupWithForm>
+        <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить"
+          isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>{fieldsetAvatar}</PopupWithForm>
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
+
       </div>
     </div>
   );

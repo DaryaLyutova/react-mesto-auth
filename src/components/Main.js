@@ -16,7 +16,7 @@ function Main(props) {
       setUserDescription(data.about);
     }).catch((err) => {
       alert(err);
-    });
+    })
   }, []);
 
   const [cards, setCards] = React.useState([]);
@@ -25,16 +25,16 @@ function Main(props) {
     api.getInitialCards().then((dataCards) => {
 
       setCards(
-        dataCards.map((item) => ({
+        dataCards.map((item )=> ({
           id: item._id,
           name: item.name,
           src: item.link,
           likes: item.likes
         })
-        ))
+      ))
     }).catch((err) => {
       alert(err);
-    });
+    })
   }, []);
 
   return (
