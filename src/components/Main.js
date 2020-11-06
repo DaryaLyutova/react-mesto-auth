@@ -40,8 +40,8 @@ function Main(props) {
   return (
     <main className="content">
       <section className="profile">
-        <img src={userAvatar} type="button" alt="Фото пользователя" className="avatar" onClick={props.onEditAvatar} />
-        <div className="avatar avatar__hover"></div>
+        <img src={userAvatar} type="button" alt="Фото пользователя" className="avatar" />
+        <div className="avatar avatar__hover" onClick={props.onEditAvatar}></div>
         <div className="profile-info">
           <div className="profile-info__container">
             <h1 className="profile-info__name">{userName}</h1>
