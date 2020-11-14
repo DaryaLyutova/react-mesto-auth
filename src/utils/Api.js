@@ -59,20 +59,6 @@ class Api {
     }).then((res) => this._showErrow(res));
   }
 
-  changeLikeCardStatus(id) {
-    return fetch(`${this._url}/cards/likes/${id}`, {
-      method: 'PUT',
-      headers: this._headers,
-    }).then((res) => this._showErrow(res));
-  }
-
-  changeLikeCardStatus(id) {
-    return fetch(`${this._url}/cards/likes/${id}`, {
-      method: 'DELETE',
-      headers: this._headers,
-    }).then((res) => this._showErrow(res));
-  }
-
   changeLikeCardStatus(id, like) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: like ? 'DELETE' : 'PUT',

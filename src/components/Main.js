@@ -9,19 +9,6 @@ function Main(props) {
 
   const [cards, setCards] = React.useState([]);
 
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-        // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-      // Обновляем стейт
-      setCards(newCards);
-    });
-}
-
   React.useEffect(() => {
     api.getInitialCards().then((dataCards) => {
       setCards(
@@ -38,6 +25,34 @@ function Main(props) {
     })
   }, []);
 
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+      // Обновляем стейт
+      setCards(newCards);
+    }).catch((err) => {
+      alert(err);
+    });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      const deleteId = card._id;
+      // // Формируем новый массив на основе имеющегося, удаляя из него карточку
+      const newCards = cards.filter((card) => card._id !== deleteId);
+      // // Обновляем стейт
+      setCards(newCards);
+    }).catch((err) => {
+      alert(err);
+    });
+  }
+
   return (
     <main className="content">
       <section className="profile">
@@ -53,8 +68,16 @@ function Main(props) {
         <button type="button" className="profile__add-button" onClick={props.onAddPlace} />
       </section>
       <section className="places">{
-        cards.map((card) => <Card key={card._id} card={card} onCardLike={handleCardLike} onCardClick={props.onCardClick} onImageClick={props.onImageClick} />)
-      }</section>
+        cards.map((card) =>
+          <Card
+            key={card._id}
+            card={card}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            onCardClick={props.onCardClick}
+            onImageClick={props.onImageClick} />)
+      }
+      </section>
     </main>
   )
 }
