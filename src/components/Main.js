@@ -1,37 +1,25 @@
 import React from 'react';
 import api from '../utils/Api';
 import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 function Main(props) {
-
-  const [userAvatar, setUserAvatar] = React.useState();
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-
-  React.useEffect(() => {
-    api.getUserInfo().then((data) => {
-      setUserAvatar(data.avatar);
-      setUserName(data.name);
-      setUserDescription(data.about);
-    }).catch((err) => {
-      alert(err);
-    })
-  }, []);
+  const currentUser = React.useContext(CurrentUserContext);
 
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     api.getInitialCards().then((dataCards) => {
-
       setCards(
-        dataCards.map((item )=> ({
+        dataCards.map((item) => ({
           id: item._id,
           name: item.name,
           src: item.link,
-          likes: item.likes
+          likes: item.likes,
+          ownerId: item.owner._id
         })
-      ))
+        ))
     }).catch((err) => {
       alert(err);
     })
@@ -40,14 +28,14 @@ function Main(props) {
   return (
     <main className="content">
       <section className="profile">
-        <img src={userAvatar} type="button" alt="Фото пользователя" className="avatar" />
+        <img src={currentUser.avatar} type="button" alt="Фото пользователя" className="avatar" />
         <div className="avatar avatar__hover" onClick={props.onEditAvatar}></div>
         <div className="profile-info">
           <div className="profile-info__container">
-            <h1 className="profile-info__name">{userName}</h1>
+            <h1 className="profile-info__name">{currentUser.name}</h1>
             <button type="button" className="edit-button" onClick={props.onEditProfile} />
           </div>
-          <p className="profile-info__activity">{userDescription}</p>
+          <p className="profile-info__activity">{currentUser.about}</p>
         </div>
         <button type="button" className="profile__add-button" onClick={props.onAddPlace} />
       </section>

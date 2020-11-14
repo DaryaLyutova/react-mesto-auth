@@ -1,4 +1,5 @@
 .place__delete {
+  visibility: hidden;
   background: no-repeat;
   background: none;
   background-image: url(../../../images/place/Trash.svg);

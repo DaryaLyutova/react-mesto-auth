@@ -4,8 +4,8 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-
-
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import api from '../utils/Api';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -13,6 +13,15 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [isCardOpen, setIsCardOpen] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+
+  React.useEffect(() => {
+    api.getUserInfo().then((data) => {
+      setCurrentUser(data);
+    }).catch((err) => {
+      alert(err);
+    })
+  }, []);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -89,29 +98,31 @@ function App() {
     </>
 
   return (
-    <div className="App">
-      <div className="page">
-        <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditProfile={handleEditProfileClick}
-          onCardClick={setSelectedCard}
-          onImageClick={handleCardClick}
-        />
-        <Footer />
-        <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить"
-          isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>{fieldsetInfo}</PopupWithForm>
-        <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить"
-          isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
-        <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
-          onClose={closeAllPopups}>{''}</PopupWithForm>
-        <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить"
-          isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>{fieldsetAvatar}</PopupWithForm>
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="App">
+        <div className="page">
+          <Header />
+          <Main
+            onEditAvatar={handleEditAvatarClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditProfile={handleEditProfileClick}
+            onCardClick={setSelectedCard}
+            onImageClick={handleCardClick}
+          />
+          <Footer />
+          <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить"
+            isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>{fieldsetInfo}</PopupWithForm>
+          <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить"
+            isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
+          <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
+            onClose={closeAllPopups}>{''}</PopupWithForm>
+          <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить"
+            isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>{fieldsetAvatar}</PopupWithForm>
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
 
+        </div>
       </div>
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 
