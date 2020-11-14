@@ -1,3 +1,5 @@
+import React from 'react';
+
 class Api {
   constructor(options) {
     this._url = options.url;
@@ -57,16 +59,23 @@ class Api {
     }).then((res) => this._showErrow(res));
   }
 
-  putLikeCard(id) {
+  changeLikeCardStatus(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'PUT',
       headers: this._headers,
     }).then((res) => this._showErrow(res));
   }
 
-  deleteLikeCard(id) {
+  changeLikeCardStatus(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'DELETE',
+      headers: this._headers,
+    }).then((res) => this._showErrow(res));
+  }
+
+  changeLikeCardStatus(id, like) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
+      method: like ? 'DELETE' : 'PUT',
       headers: this._headers,
     }).then((res) => this._showErrow(res));
   }
