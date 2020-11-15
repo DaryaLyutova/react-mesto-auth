@@ -4,6 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
@@ -54,6 +55,13 @@ function App() {
     })
   }
 
+  function handleUpdateAvatar(data) {
+    api.sethUserAvatar(data).then((dataAvatar) => {
+      setCurrentUser(dataAvatar);
+      closeAllPopups();
+    })
+  }
+
   const fieldsetAddCard =
     <>
       <input type="text"
@@ -73,16 +81,7 @@ function App() {
         required />
       <span className="popup__error" id="email-input-error"></span>
     </>
-  const fieldsetAvatar =
-    <>
-      <input type="url"
-        placeholder="Ссылка на аватар"
-        className="popup__input popup__input_avatar-link"
-        id="avatar-input"
-        name="avatar"
-        required />
-      <span className="popup__error" id="avatar-input-error"></span>
-    </>
+  
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -105,8 +104,11 @@ function App() {
             isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
           <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
             onClose={closeAllPopups}>{''}</PopupWithForm>
-          <PopupWithForm name="avatar" title="Обновить аватар" buttonTitle="Сохранить"
-            isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>{fieldsetAvatar}</PopupWithForm>
+          <EditAvatarPopup 
+          isOpen={isEditAvatarPopupOpen} 
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+           />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
 
         </div>
