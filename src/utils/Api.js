@@ -21,7 +21,7 @@ class Api {
     }).then((res) => this._showErrow(res));
   }
 
-  patchUserInfo(data) {
+  setUserInfo(data) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,

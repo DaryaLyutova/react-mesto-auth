@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
@@ -45,28 +46,14 @@ function App() {
     setIsEditAvatarPopupOpen();
     setIsCardOpen();
   }
+  
+  function handleUpdateUser(data) {
+    api.setUserInfo(data).then((dataInfo) => {
+      setCurrentUser(dataInfo);
+      closeAllPopups();
+    })
+  }
 
-  const fieldsetInfo =
-    <>
-      <input type="text"
-        placeholder="Имя"
-        className="popup__input popup__input_name"
-        id="name-input"
-        name="name"
-        minLength="2"
-        maxLength="40"
-        required />
-      <span className="popup__error" id="name-input-error"></span>
-      <input type="text"
-        placeholder="О себе"
-        className="popup__input popup__input_activity"
-        id="activity-input"
-        name="about"
-        minLength="2"
-        maxLength="200"
-        required />
-      <span className="popup__error" id="activity-input-error"></span>
-    </>
   const fieldsetAddCard =
     <>
       <input type="text"
@@ -110,8 +97,10 @@ function App() {
             onImageClick={handleCardClick}
           />
           <Footer />
-          <PopupWithForm name="info" title="Редактировать профиль" buttonTitle="Сохранить"
-            isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>{fieldsetInfo}</PopupWithForm>
+          <EditProfilePopup 
+          isOpen={isEditProfilePopupOpen} 
+          onClose={closeAllPopups} 
+          onUpdateUser={handleUpdateUser}/>
           <PopupWithForm name="add-card" title="Новое место" buttonTitle="Сохранить"
             isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>{fieldsetAddCard}</PopupWithForm>
           <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"

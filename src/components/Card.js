@@ -19,17 +19,17 @@ function Card({ card, onCardClick, onImageClick, onCardLike, onCardDelete }) {
         onCardLike(card);
     }
 
-function handleDeleteClick() {
-    onCardDelete(card);
-}
+    function handleDeleteClick() {
+        onCardDelete(card);
+    }
 
     return (
         <div className="place__container">
             <img src={card.link} alt="Фотография места" className="place__image" onClick={handleClick} />
-            <button 
-            type="button" 
-            className={`place__delete ${isOwn ? 'place__delete_visible' : ''}`}
-            onClick={handleDeleteClick} />
+            <button
+                type="button"
+                className={`place__delete ${isOwn ? 'place__delete_visible' : ''}`}
+                onClick={handleDeleteClick} />
             <div className="place__group">
                 <h2 className="place__title">{card.name}</h2>
                 <form className="place__like-container">
