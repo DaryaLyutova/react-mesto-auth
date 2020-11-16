@@ -4,54 +4,10 @@ import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
-function Main(props) {
+function Main({cards, ...props}) {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const [cards, setCards] = React.useState([]);
 
-  React.useEffect(() => {
-    api.getInitialCards().then((dataCards) => {
-      setCards(
-        dataCards.map((item) => ({
-          _id: item._id,
-          name: item.name,
-          link: item.link,
-          likes: item.likes,
-          owner: item.owner
-        })
-        ))
-    }).catch((err) => {
-      alert(err);
-    })
-  }, []);
-
-
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-      const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-      // Обновляем стейт
-      setCards(newCards);
-    }).catch((err) => {
-      alert(err);
-    });
-  }
-
-  function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      const deleteId = card._id;
-      // // Формируем новый массив на основе имеющегося, удаляя из него карточку
-      const newCards = cards.filter((card) => card._id !== deleteId);
-      // // Обновляем стейт
-      setCards(newCards);
-    }).catch((err) => {
-      alert(err);
-    });
-  }
 
   return (
     <main className="content">
@@ -71,9 +27,10 @@ function Main(props) {
         cards.map((card) =>
           <Card
             key={card._id}
+            cards={props.cards}
             card={card}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
+            onCardLike={props.onCardLike}
+            onCardDelete={props.onCardDelete}
             onCardClick={props.onCardClick}
             onImageClick={props.onImageClick} />)
       }
