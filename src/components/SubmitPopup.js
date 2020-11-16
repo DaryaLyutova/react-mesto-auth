@@ -4,9 +4,10 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function SubmitPopup(props) {
 
-    function handelSubmitPopup(e) {
+    function handleSubmit(e) {
         e.preventDefault();
-        props.onCardDelete(props.card);
+        console.log(props.card)
+        props.onCardDelete(props.card);;
     }
 
     return (
@@ -16,7 +17,7 @@ function SubmitPopup(props) {
             buttonTitle="Да"
             onClose={props.onClose}
             isOpen={props.isOpen}
-            onSubmit={handelSubmitPopup}
+            onSubmit={handleSubmit}
             onCardDelete={props.onCardDelete}>
             {''}
         </PopupWithForm>
