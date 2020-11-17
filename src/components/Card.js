@@ -25,7 +25,8 @@ function Card({ card, onCardClick, onImageClick, onCardLike, onCardDelete }) {
 
     return (
         <div className="place__container">
-            <img src={card.link} alt="Фотография места" className="place__image" onClick={handleClick} />
+            <img alt={`изображение ${card.name}`} src={card.link} alt="Фотография места"
+                className="place__image" onClick={handleClick} />
             <button
                 type="button"
                 className={`place__delete ${isOwn ? 'place__delete_visible' : ''}`}

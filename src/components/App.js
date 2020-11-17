@@ -17,10 +17,22 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [isCardOpen, setIsCardOpen] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInfo().then((data) => {
-      setCurrentUser(data);
+    Promise.all([api.getUserInfo(), api.getInitialCards()]).then((values) => {
+      const [userData, initialCards] = values;
+      return [userData, initialCards]
+    }).then(([userData, initialCards]) => {
+      setCurrentUser(userData);
+      setCards(
+        initialCards.map((item) => ({
+          _id: item._id,
+          name: item.name,
+          link: item.link,
+          likes: item.likes,
+          owner: item.owner
+        })))
     }).catch((err) => {
       alert(err);
     })
@@ -43,16 +55,18 @@ function App() {
   }
 
   function closeAllPopups() {
-    setIsEditProfilePopupOpen();
-    setIsAddPlacePopupOpen();
-    setIsEditAvatarPopupOpen();
-    setIsCardOpen();
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsCardOpen(false);
   }
 
   function handleUpdateUser(data) {
     api.setUserInfo(data).then((dataInfo) => {
       setCurrentUser(dataInfo);
       closeAllPopups();
+    }).catch((err) => {
+      alert(err);
     })
   }
 
@@ -60,38 +74,20 @@ function App() {
     api.sethUserAvatar(data).then((dataAvatar) => {
       setCurrentUser(dataAvatar);
       closeAllPopups();
-    })
-  }
-
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() => {
-    api.getInitialCards().then((dataCards) => {
-      setCards(
-        dataCards.map((item) => ({
-          _id: item._id,
-          name: item.name,
-          link: item.link,
-          likes: item.likes,
-          owner: item.owner
-        })
-        ))
     }).catch((err) => {
       alert(err);
     })
-  }, []);
+  }
 
-  
   function handeleAddPlace(data) {
     api.makeNewCard(data).then((newCard) => {
       // Обновляем стейт
-      setCards([newCard, ...cards]); 
+      setCards([newCard, ...cards]);
       closeAllPopups();
     }).catch((err) => {
       alert(err);
     });
   }
-
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
