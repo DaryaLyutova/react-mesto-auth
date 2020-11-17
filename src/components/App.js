@@ -9,15 +9,22 @@ import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
+import SubmitPopup from './SubmitPopup';
 
 function App() {
+  //стэйты состояния попапов (открыт/закрыт)
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [isCardOpen, setIsCardOpen] = React.useState(false);
+  const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
+  //данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
+  //данные карточек
   const [cards, setCards] = React.useState([]);
+  //стэйт карточки для удаления
+  const [cardforDelete, setCardForDelete] = React.useState({});
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()]).then((values) => {
@@ -59,6 +66,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsCardOpen(false);
+    setIsSubmitPopupOpen(false);
   }
 
   function handleUpdateUser(data) {
@@ -103,6 +111,10 @@ function App() {
       alert(err);
     });
   }
+  function handeleDeleteClick(card) {
+    setIsSubmitPopupOpen(!isSubmitPopupOpen);
+    setCardForDelete(card);
+  }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
@@ -111,6 +123,7 @@ function App() {
       const newCards = cards.filter((card) => card._id !== deleteId);
       // // Обновляем стейт
       setCards(newCards);
+      closeAllPopups();
     }).catch((err) => {
       alert(err);
     });
@@ -128,7 +141,7 @@ function App() {
             onCardClick={setSelectedCard}
             onImageClick={handleCardClick}
             onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
+            onCardDelete={handeleDeleteClick}
             cards={cards}
           />
           <Footer />
@@ -140,8 +153,11 @@ function App() {
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handeleAddPlace} />
-          <PopupWithForm name="submit" title="Вы уверены?" buttonTitle="Да"
-            onClose={closeAllPopups}>{''}</PopupWithForm>
+          <SubmitPopup
+            isOpen={isSubmitPopupOpen}
+            onClose={closeAllPopups}
+            onCardDelete={handleCardDelete}
+            card={cardforDelete} />
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}

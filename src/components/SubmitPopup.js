@@ -6,7 +6,6 @@ function SubmitPopup(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(props.card)
         props.onCardDelete(props.card);;
     }
 
