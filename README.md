@@ -6,8 +6,15 @@
  
 Ссылка на gh-pages: https://daryalyutova.github.io/mesto-react/ 
  
-Проект можно запустить припомощи команды 
-### `npm start` 
+## Для запуска проекта необходимо:
+- клонировать репозиторий
+git clone https://github.com/DaryaLyutova/mesto
+- установить зависимости
+npm install
+- запустить проект
+npm run start
+- собрать
+npm run build
  
 Runs the app in the development mode.\ 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser. 
