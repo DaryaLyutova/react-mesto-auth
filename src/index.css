@@ -46,3 +46,11 @@
 @import url(./blocks/popup/__button/_disabled/popup__button_disabled.css);
 @import url(./blocks/avatar/__hover/avatar__hover.css);
 @import url(./blocks/place/__delete/_visible/place__delete_visible.css);
+@import url(./blocks/sing/sing.css);
+@import url(./blocks/sing/__form/sing__form.css);
+@import url(./blocks/sing/__title/sing__title.css);
+@import url(./blocks/sing/__input/sing__input.css);
+@import url(./blocks/sing/__button/sing__button.css);
+@import url(./blocks/sing/__link-block/sing__link-block.css);
+@import url(./blocks/sing/__link/sing__link.css);
+@import url(./blocks/sing/__subtitle/sing__subtitle.css);
