@@ -12,6 +12,8 @@ import api from '../utils/Api';
 import SubmitPopup from './SubmitPopup';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from "./ProtectedRoute";
+import InfoTooItip from "./InfoTooltip";
 
 function App() {
   //стэйты состояния попапов (открыт/закрыт)
@@ -131,7 +133,7 @@ function App() {
     });
   }
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -139,8 +141,13 @@ function App() {
       <div className="page">
         <Header />
         <Switch>
-        <Route exact path="/">
-        <Main
+        <Route path="/sign-up">
+          <Register />
+        </Route>
+        <Route path="/sign-in">
+          <Login />
+        </Route>
+        <ProtectedRoute path="/" loggedIn={loggedIn} component={Main}
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onEditProfile={handleEditProfileClick}
@@ -148,39 +155,32 @@ function App() {
           onImageClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardDelete={handeleDeleteClick}
-          cards={cards}
-        />
-        <Footer />
-        <EditProfilePopup
+          cards={cards} 
+        />        
+        <Route>
+          {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+        </Route>
+        </Switch>
+          <Footer />
+          <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser} />
-        <AddPlacePopup
+          <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handeleAddPlace} />
-        <SubmitPopup
+          <SubmitPopup
           isOpen={isSubmitPopupOpen}
           onClose={closeAllPopups}
           onCardDelete={handleCardDelete}
           card={cardforDelete} />
-        <EditAvatarPopup
+          <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-        />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
-        </Route>
-        <Route path="/sign-up">
-          <Register />
-        </Route>
-        <Route path="/sign-in">
-          <Login />
-        </Route>
-        <Route>
-          {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
-          </Route>
-        </Switch>          
+          />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />                  
       </div>
     </div>
   </CurrentUserContext.Provider>

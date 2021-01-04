@@ -1,4 +1,4 @@
-.sing__button {
+.sign__button {
   text-decoration: none;
   background-color: #ffffff;
   color: #000;
@@ -14,6 +14,6 @@
   border-radius: 2px;
 }
 
-.sing__button:hover {
+.sign__button:hover {
   cursor: pointer;
 }
