@@ -10,4 +10,10 @@
   font-size: 18px;
   line-height: 22px;
   text-align: center;
+  border: none;
+  border-radius: 2px;
+}
+
+.sing__button:hover {
+  cursor: pointer;
 }

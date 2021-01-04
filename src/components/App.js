@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -131,6 +131,8 @@ function App() {
     });
   }
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="App">
@@ -175,6 +177,9 @@ function App() {
         <Route path="/sign-in">
           <Login />
         </Route>
+        <Route>
+          {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+          </Route>
         </Switch>          
       </div>
     </div>
