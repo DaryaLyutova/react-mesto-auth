@@ -13,8 +13,8 @@ import SubmitPopup from './SubmitPopup';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from "./ProtectedRoute";
-import InfoTooItip from "./InfoTooltip";
 import * as mestoAuth from '../mestoAuth.js';
+import InfoTooItip from "./InfoTooltip";
 
 function App() {
   //стэйты состояния попапов (открыт/закрыт)
@@ -24,12 +24,25 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [isCardOpen, setIsCardOpen] = React.useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
-  //данные пользователя
+  const [isInfoTooltip, setIsInfoTooltip] = React.useState(false);
+    //данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
   //данные карточек
   const [cards, setCards] = React.useState([]);
   //стэйт карточки для удаления
   const [cardforDelete, setCardForDelete] = React.useState({});
+//данные для попапа регистрации
+  const [tooltip, setTooltip] = React.useState({ 
+    image: '../images/popup/Union (1).svg',
+    subtitle: 'Что-то пошло не так! Попробуйте ещё раз.',
+  });
+
+  function handleInfoTooltip() {
+    setTooltip({
+      image: '../images/popup/Union.svg',
+      subtitle: 'Вы успешно зарегистрировались!',
+    });
+  }
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()]).then((values) => {
@@ -66,12 +79,16 @@ function App() {
     setIsCardOpen(!isCardOpen);
   }
 
+  function handlesumite() {
+    setIsInfoTooltip(!isInfoTooltip);
+  }
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsCardOpen(false);
     setIsSubmitPopupOpen(false);
+    setIsInfoTooltip(false);
   }
 
   function handleUpdateUser(data) {
@@ -157,9 +174,11 @@ function App() {
         <Header />
         <Switch>
         <Route path="/sign-up">
-          <Register />
+          <Register 
+          onSubmiteClick={handlesumite}
+          onInfoTooltip={handleInfoTooltip} />
         </Route>
-        <Route path="/sign-in">
+        <Route path="/sign-in" >
           <Login handeleLogin={handeleLogin} />
         </Route>
         <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
@@ -196,6 +215,11 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />                  
+          < InfoTooItip 
+          image={tooltip.image} 
+          subtitle={tooltip.subtitle}
+          isOpen={isInfoTooltip} 
+          onClose={closeAllPopups} />
       </div>
     </div>
   </CurrentUserContext.Provider>
