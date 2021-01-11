@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -14,6 +14,7 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooItip from "./InfoTooltip";
+import * as mestoAuth from '../mestoAuth.js';
 
 function App() {
   //стэйты состояния попапов (открыт/закрыт)
@@ -133,7 +134,21 @@ function App() {
     });
   }
 
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  
+  const history = useHistory();
+
+  function handeleLogin() {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      mestoAuth.getToken(token)
+      .then((data) => {
+        if (data) 
+          setLoggedIn(true);
+          history.push('/');
+        })
+      }
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -145,9 +160,9 @@ function App() {
           <Register />
         </Route>
         <Route path="/sign-in">
-          <Login />
+          <Login handeleLogin={handeleLogin} />
         </Route>
-        <ProtectedRoute path="/" loggedIn={loggedIn} component={Main}
+        <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onEditProfile={handleEditProfileClick}

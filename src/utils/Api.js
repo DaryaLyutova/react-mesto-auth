@@ -1,5 +1,3 @@
-import React from 'react';
-
 class Api {
   constructor(options) {
     this._url = options.url;
