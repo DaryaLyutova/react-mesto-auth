@@ -15,7 +15,7 @@ import Register from './Register';
 import ProtectedRoute from "./ProtectedRoute";
 import * as mestoAuth from '../mestoAuth.js';
 import InfoTooItip from "./InfoTooltip";
-import okImage from '../images/popup/Union.svg'; 
+import okImage from '../images/popup/Union.svg';
 import errorImage from '../images/popup/Union (1).svg';
 
 function App() {
@@ -27,15 +27,15 @@ function App() {
   const [isCardOpen, setIsCardOpen] = React.useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
   const [isInfoTooltip, setIsInfoTooltip] = React.useState(false);
-  
-    //данные пользователя
+
+  //данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
   //данные карточек
   const [cards, setCards] = React.useState([]);
   //стэйт карточки для удаления
   const [cardforDelete, setCardForDelete] = React.useState({});
-//данные для попапа регистрации
-  const [tooltip, setTooltip] = React.useState({ 
+  //данные для попапа регистрации
+  const [tooltip, setTooltip] = React.useState({
     image: errorImage,
     subtitle: 'Что-то пошло не так! Попробуйте ещё раз.',
   });
@@ -155,80 +155,85 @@ function App() {
   }
 
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [email, setEmail] = React.useState('');
-  
-  const history = useHistory();
+  const [userEmail, setUserEmail] = React.useState('');
 
+  const history = useHistory();
+//проверка токена и данные email 
   function handeleLogin() {
     const token = localStorage.getItem('token');
     if (token) {
       mestoAuth.getToken(token)
-      .then((data) => {
-        if (data)
-        console.log(data.data.email);
+        .then((data) => {
+          if (data)
           setLoggedIn(true);
-          setEmail(data.data.email)
+          setUserEmail(data.data.email)
           history.push('/');
         })
-      }
+    }
+  }
+//удаление токена при выходе
+  function signOut(){
+    localStorage.removeItem('token');
+    setUserEmail('');
+    history.push('/login');
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-    <div className="App">
-      <div className="page">
-        <Header email={email} />
-        <Switch>
-        <Route path="/sign-up">
-          <Register 
-          onSubmiteClick={handlesumite}
-          onInfoTooltip={handleInfoTooltip} />
-        </Route>
-        <Route path="/sign-in" >
-          <Login handeleLogin={handeleLogin} />
-        </Route>
-        <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
-          onEditAvatar={handleEditAvatarClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditProfile={handleEditProfileClick}
-          onCardClick={setSelectedCard}
-          onImageClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handeleDeleteClick}
-          cards={cards} 
-        />        
-        <Route>
-          {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
-        </Route>
-        </Switch>
+      <div className="App">
+        <div className="page">
+          <Header email={userEmail} signOut={signOut} />
+          <Switch>
+            <Route path="/sign-up">
+              <Register
+                onSubmiteClick={handlesumite}
+                onInfoTooltip={handleInfoTooltip} />
+            </Route>
+            <Route path="/sign-in" >
+              <Login handeleLogin={handeleLogin} />
+            </Route>
+            <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
+              onEditAvatar={handleEditAvatarClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditProfile={handleEditProfileClick}
+              onCardClick={setSelectedCard}
+              onImageClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handeleDeleteClick}
+              cards={cards}
+            />
+            <Route>
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+            </Route>
+          </Switch>
           <Footer />
           <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser} />
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser} />
           <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onAddPlace={handeleAddPlace} />
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handeleAddPlace} />
           <SubmitPopup
-          isOpen={isSubmitPopupOpen}
-          onClose={closeAllPopups}
-          onCardDelete={handleCardDelete}
-          card={cardforDelete} />
+            isOpen={isSubmitPopupOpen}
+            onClose={closeAllPopups}
+            onCardDelete={handleCardDelete}
+            card={cardforDelete} />
           <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
           />
-          <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />                  
-          < InfoTooItip 
-          image={tooltip.image} 
-          subtitle={tooltip.subtitle}
-          isOpen={isInfoTooltip} 
-          onClose={closeAllPopups} />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isCardOpen} />
+          < InfoTooItip
+            image={tooltip.image}
+            subtitle={tooltip.subtitle}
+            isOpen={isInfoTooltip}
+            onClose={closeAllPopups} />
+        </div>
       </div>
-    </div>
-  </CurrentUserContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

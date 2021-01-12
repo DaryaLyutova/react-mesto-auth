@@ -1,6 +1,5 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function EditAvatarPopup(props) {
 
@@ -9,9 +8,9 @@ function EditAvatarPopup(props) {
     function handleSubmit(e) {
         e.preventDefault();
         props.onUpdateAvatar({
-          avatar: avatarRef.current.value,
+            avatar: avatarRef.current.value,
         });
-      } 
+    }
 
     const fieldsetAvatar =
         <>

@@ -26,7 +26,7 @@ function Card({ card, onCardClick, onImageClick, onCardLike, onCardDelete }) {
 
     return (
         <div className="place__container">
-            <img alt={`изображение ${card.name}`} src={card.link} 
+            <img alt={`изображение ${card.name}`} src={card.link}
                 className="place__image" onClick={handleClick} />
             <button
                 type="button"
