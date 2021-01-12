@@ -2,14 +2,11 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as mestoAuth from '../mestoAuth.js';
 
-
 function Register(props) {
 
   const history = useHistory();
   const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  // const [tooltip, setTooltip] = React.useState({});
-    
+  const [password, setPassword] = React.useState('');    
 
   function handelEmailChange(e) {
     setEmail(e.target.value)

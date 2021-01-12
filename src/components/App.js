@@ -25,6 +25,11 @@ function App() {
   const [isCardOpen, setIsCardOpen] = React.useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
   const [isInfoTooltip, setIsInfoTooltip] = React.useState(false);
+  //ссылка в header
+  const [headerLink, setHeaderLink] = React.useState({
+    title: 'Войти',
+    link:'sign-in'
+  })
     //данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
   //данные карточек
@@ -36,6 +41,26 @@ function App() {
     image: '../images/popup/Union (1).svg',
     subtitle: 'Что-то пошло не так! Попробуйте ещё раз.',
   });
+
+function handelHeaderTitle() {
+  if ('/sign-in') {
+    setHeaderLink({
+      title: 'Загеристрироваться',
+      link:'sign-up'
+    });
+  }
+  if ('/sign-up') {
+    setHeaderLink({
+      title: 'Войти',
+      link:'sign-up'
+    });
+  } else {
+    setHeaderLink({
+      title: 'Выйти',
+      link:'sign-up'
+    });
+  }
+}
 
   function handleInfoTooltip() {
     setTooltip({
@@ -156,7 +181,7 @@ function App() {
   const history = useHistory();
 
   function handeleLogin() {
-    const token = localStorage.getItem('jwt');
+    const token = localStorage.getItem('token');
     if (token) {
       mestoAuth.getToken(token)
       .then((data) => {
@@ -171,7 +196,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
     <div className="App">
       <div className="page">
-        <Header />
+        <Header title={headerLink.title} link={headerLink.link}/>
         <Switch>
         <Route path="/sign-up">
           <Register 

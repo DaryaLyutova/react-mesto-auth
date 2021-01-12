@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import * as mestoAuth from '../mestoAuth.js';
 
-function Login(handeleLogin) {
+function Login(props) {
     
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -30,9 +30,9 @@ function Login(handeleLogin) {
         return;
       }
       mestoAuth.avthorize(email, password).then((data) => {
-        if(data.jwt){
+        if(data.token){
           resetForm();
-          handeleLogin();
+          props.handeleLogin();
           history.push('/');
         } else {
           setMassege( 'Что-то пошло не так!')

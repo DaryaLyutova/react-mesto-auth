@@ -33,10 +33,10 @@ export const avthorize = (email, password) => {
     },
     body: JSON.stringify({email, password})
   })
-  .then((res) => {res.json()})
+  .then((res) => {return res.json()})
   .then((data) => {
-    if (data.user) {
-      localStorage.setItem('jwt', data.jwt);
+    if (data.token) {
+      localStorage.setItem('token', data.token);
       return data;
     } else {
       return;
@@ -53,7 +53,7 @@ export const getToken = (token) => {
       "Authorization" : `Bearer ${token}`
     }
   })
-  .then((res) => {res.json()})
+  .then((res) => {return res.json()})
   .then(data => data)
   .catch((err) => console.log(err)); 
 }
