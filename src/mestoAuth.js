@@ -1,5 +1,6 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+// запрос на регистрацию пользователя
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
@@ -23,7 +24,7 @@ export const register = (email, password) => {
   })
   .catch((err) => console.log(err));
 };
-
+// запрос на авторизацию пользователя
 export const avthorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
@@ -36,6 +37,7 @@ export const avthorize = (email, password) => {
   .then((res) => {return res.json()})
   .then((data) => {
     if (data.token) {
+      // сохранение токена в localStorage
       localStorage.setItem('token', data.token);
       return data;
     } else {
@@ -44,7 +46,7 @@ export const avthorize = (email, password) => {
   })
   .catch((err) => console.log(err));
 };
-
+// запрос на поллучение токена 
 export const getToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',

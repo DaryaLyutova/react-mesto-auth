@@ -15,6 +15,8 @@ import Register from './Register';
 import ProtectedRoute from "./ProtectedRoute";
 import * as mestoAuth from '../mestoAuth.js';
 import InfoTooItip from "./InfoTooltip";
+import okImage from '../images/popup/Union.svg'; 
+import errorImage from '../images/popup/Union (1).svg';
 
 function App() {
   //стэйты состояния попапов (открыт/закрыт)
@@ -25,11 +27,7 @@ function App() {
   const [isCardOpen, setIsCardOpen] = React.useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
   const [isInfoTooltip, setIsInfoTooltip] = React.useState(false);
-  //ссылка в header
-  const [headerLink, setHeaderLink] = React.useState({
-    title: 'Войти',
-    link:'sign-in'
-  })
+  
     //данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
   //данные карточек
@@ -38,33 +36,13 @@ function App() {
   const [cardforDelete, setCardForDelete] = React.useState({});
 //данные для попапа регистрации
   const [tooltip, setTooltip] = React.useState({ 
-    image: '../images/popup/Union (1).svg',
+    image: errorImage,
     subtitle: 'Что-то пошло не так! Попробуйте ещё раз.',
   });
 
-function handelHeaderTitle() {
-  if ('/sign-in') {
-    setHeaderLink({
-      title: 'Загеристрироваться',
-      link:'sign-up'
-    });
-  }
-  if ('/sign-up') {
-    setHeaderLink({
-      title: 'Войти',
-      link:'sign-up'
-    });
-  } else {
-    setHeaderLink({
-      title: 'Выйти',
-      link:'sign-up'
-    });
-  }
-}
-
   function handleInfoTooltip() {
     setTooltip({
-      image: '../images/popup/Union.svg',
+      image: okImage,
       subtitle: 'Вы успешно зарегистрировались!',
     });
   }
@@ -196,7 +174,7 @@ function handelHeaderTitle() {
     <CurrentUserContext.Provider value={currentUser}>
     <div className="App">
       <div className="page">
-        <Header title={headerLink.title} link={headerLink.link}/>
+        <Header />
         <Switch>
         <Route path="/sign-up">
           <Register 
