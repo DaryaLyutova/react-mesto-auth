@@ -36,8 +36,11 @@ function Header(props) {
     return (
         <header className="header">
             <img src={headerLogo} alt="логотип" className="logo" />
-            <p className="header__email">{props.email}</p>
-            <Link to={headerLink.link} className="header__link">{headerLink.title}</Link>
+            <div className="header__info">
+              <p className="header__email">{props.email}</p>
+              <Link to={headerLink.link} className="header__link">{headerLink.title}</Link>
+            </div>
+            
         </header>
     )
 }

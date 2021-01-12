@@ -155,6 +155,7 @@ function App() {
   }
 
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState('');
   
   const history = useHistory();
 
@@ -163,8 +164,10 @@ function App() {
     if (token) {
       mestoAuth.getToken(token)
       .then((data) => {
-        if (data) 
+        if (data)
+        console.log(data.data.email);
           setLoggedIn(true);
+          setEmail(data.data.email)
           history.push('/');
         })
       }
@@ -174,7 +177,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
     <div className="App">
       <div className="page">
-        <Header />
+        <Header email={email} />
         <Switch>
         <Route path="/sign-up">
           <Register 

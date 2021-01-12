@@ -56,3 +56,5 @@
 @import url(./blocks/sign/__subtitle/sign__subtitle.css);
 @import url(./blocks/popup/__subtitle/popup__subtitle.css);
 @import url(./blocks/popup/__info-image/popup__info-image.css); 
+@import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__info/header__info.css);
