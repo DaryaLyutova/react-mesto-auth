@@ -32,7 +32,7 @@ function Login(props) {
     mestoAuth.avthorize(email, password).then((data) => {
       if (data.token) {
         resetForm();
-        props.handeleLogin();
+        props.onLogin();
         history.push('/');
       } else {
         setMassege('Что-то пошло не так!')

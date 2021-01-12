@@ -19,6 +19,37 @@ import okImage from '../images/popup/Union.svg';
 import errorImage from '../images/popup/Union (1).svg';
 
 function App() {
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState('');
+
+  const history = useHistory();
+  //проверка токена и данные email 
+  function handeleLogin() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      mestoAuth.getToken(token)
+        .then((data) => {
+          if (data) {
+            setLoggedIn(true);
+            setUserEmail(data.data.email)
+            history.push('/');
+          }
+        })
+    }
+  }
+  //сохранение токена для повторного входа
+  React.useEffect(() => {
+    handeleLogin();
+  }, [loggedIn]);
+
+  //удаление токена при выходе
+  function signOut() {
+    localStorage.removeItem('token');
+    setUserEmail('');
+    history.push('/login');
+  }
+
   //стэйты состояния попапов (открыт/закрыт)
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -154,30 +185,6 @@ function App() {
     });
   }
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userEmail, setUserEmail] = React.useState('');
-
-  const history = useHistory();
-//проверка токена и данные email 
-  function handeleLogin() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      mestoAuth.getToken(token)
-        .then((data) => {
-          if (data)
-          setLoggedIn(true);
-          setUserEmail(data.data.email)
-          history.push('/');
-        })
-    }
-  }
-//удаление токена при выходе
-  function signOut(){
-    localStorage.removeItem('token');
-    setUserEmail('');
-    history.push('/login');
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -190,7 +197,7 @@ function App() {
                 onInfoTooltip={handleInfoTooltip} />
             </Route>
             <Route path="/sign-in" >
-              <Login handeleLogin={handeleLogin} />
+              <Login onLogin={handeleLogin} />
             </Route>
             <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
               onEditAvatar={handleEditAvatarClick}
