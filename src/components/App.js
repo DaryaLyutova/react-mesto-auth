@@ -23,8 +23,8 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
 
-  function avthorizetion(email, password, message, resetForm) {
-    mestoAuth.avthorize(email, password).then((data) => {
+  function authorizeUser(email, password, message, resetForm) {
+    mestoAuth.authorize(email, password).then((data) => {
       if (data) {
         resetForm();
         handeleLogin();
@@ -37,7 +37,7 @@ function App() {
     });
   }
 
-  function registration(email, password, resetForm) {
+  function registerUser(email, password, resetForm) {
     mestoAuth.register(email, password).then((data) => {
       if (data) {
         resetForm();
@@ -225,10 +225,10 @@ function App() {
           <Switch>
             <Route path="/sign-up">
               <Register
-                onRegistration={registration} />
+                onRegistration={registerUser} />
             </Route>
             <Route path="/sign-in" >
-              <Login onLogin={avthorizetion} />
+              <Login onLogin={authorizeUser} />
             </Route>
             <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
               onEditAvatar={handleEditAvatarClick}
