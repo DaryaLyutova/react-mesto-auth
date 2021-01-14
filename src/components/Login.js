@@ -1,6 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import * as mestoAuth from '../mestoAuth.js';
 
 function Login(props) {
 
@@ -16,28 +14,23 @@ function Login(props) {
     setPassword(e.target.value)
   };
 
+  function handelMessage() {
+    setMassege('Что-то пошло не так!');
+  }
+
   function resetForm() {
     setEmail('');
     setPassword('');
     setMassege('');
   }
 
-  const history = useHistory();
-
   function handelSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
       return;
     }
-    mestoAuth.avthorize(email, password).then((data) => {
-      if (data.token) {
-        resetForm();
-        props.onLogin();
-        history.push('/');
-      } else {
-        setMassege('Что-то пошло не так!')
-      }
-    });
+    handelMessage();
+    props.onLogin(email, password, message, resetForm);
   };
 
   return (

@@ -23,6 +23,18 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
 
+  function avthorizetion(email, password, message, resetForm) {
+    mestoAuth.avthorize(email, password).then((data) => {
+      if (data) {
+        resetForm();
+        handeleLogin();
+        history.push('/');
+      } else {
+        console.log(message);
+      }
+    });
+  }
+
   const history = useHistory();
   //проверка токена и данные email 
   function handeleLogin() {
@@ -195,7 +207,7 @@ function App() {
                 onInfoTooltip={handleInfoTooltip} />
             </Route>
             <Route path="/sign-in" >
-              <Login onLogin={handeleLogin} />
+              <Login onLogin={avthorizetion} />
             </Route>
             <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main}
               onEditAvatar={handleEditAvatarClick}
