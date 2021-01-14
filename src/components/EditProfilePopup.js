@@ -9,8 +9,8 @@ function EditProfilePopup(props) {
     const [description, setDescription] = React.useState('');
 
     React.useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
+        setName(currentUser.name || '');
+        setDescription(currentUser.about || '');
     }, [currentUser]);
 
     function handleChangeName(e) {
@@ -32,7 +32,7 @@ function EditProfilePopup(props) {
         });
     }
 
-    const fieldsetInfo =
+    const fieldsetInfo = (
         <>
             <input type="text"
                 placeholder="Имя"
@@ -57,6 +57,7 @@ function EditProfilePopup(props) {
                 required />
             <span className="popup__error" id="activity-input-error"></span>
         </>
+    )
 
     return (
         <PopupWithForm

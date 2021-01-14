@@ -1,6 +1,5 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function AddPlacePopup(props) {
 
@@ -12,10 +11,12 @@ function AddPlacePopup(props) {
     props.onAddPlace({
       name: nameRef.current.value,
       link: linkRef.current.value
-    })
+    });
+    nameRef.current.value = '';
+    linkRef.current.value = '';
   }
 
-  const fieldsetAddCard =
+  const fieldsetAddCard = (
     <>
       <input type="text"
         placeholder="Название"
@@ -36,6 +37,7 @@ function AddPlacePopup(props) {
         required />
       <span className="popup__error" id="email-input-error"></span>
     </>
+  )
 
   return (
     <PopupWithForm

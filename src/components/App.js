@@ -8,7 +8,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import api from '../utils/Api';
+import api from '../utils/api';
 import SubmitPopup from './SubmitPopup';
 import Login from './Login';
 import Register from './Register';
@@ -79,10 +79,8 @@ function App() {
   }
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then((values) => {
-      const [userData, initialCards] = values;
-      return [userData, initialCards]
-    }).then(([userData, initialCards]) => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userData, initialCards]) => {
       setCurrentUser(userData);
       setCards(
         initialCards.map((item) => ({

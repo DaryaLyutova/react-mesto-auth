@@ -34,7 +34,7 @@ function Header(props) {
 
   React.useEffect(() => {
     handelHeaderTitle();
-  }, [headerLink])
+  }, [location.pathname])
 
   return (
     <header className="header">
@@ -44,7 +44,7 @@ function Header(props) {
         <Link
           to={headerLink.link}
           className="header__link"
-          onClick={headerLink.title === 'Выйти' ? props.signOut : ''}
+          onClick={headerLink.title === 'Выйти' ? props.signOut : null}
         >{headerLink.title}</Link>
       </div>
 

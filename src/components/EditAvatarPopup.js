@@ -10,9 +10,10 @@ function EditAvatarPopup(props) {
         props.onUpdateAvatar({
             avatar: avatarRef.current.value,
         });
+        avatarRef.current.value = '';
     }
 
-    const fieldsetAvatar =
+    const fieldsetAvatar = (
         <>
             <input type="url"
                 placeholder="Ссылка на аватар"
@@ -23,6 +24,7 @@ function EditAvatarPopup(props) {
                 required />
             <span className="popup__error" id="avatar-input-error"></span>
         </>
+    )
 
     return (
         <PopupWithForm
