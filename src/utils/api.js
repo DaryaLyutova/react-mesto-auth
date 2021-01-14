@@ -65,6 +65,7 @@ class Api {
   }
 }
 
+//создание экземпляра класса
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-16',
   headers: {
