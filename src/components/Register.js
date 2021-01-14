@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import * as mestoAuth from '../mestoAuth.js';
+import { Link } from 'react-router-dom';
 
 function Register(props) {
 
-  const history = useHistory();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -23,16 +21,7 @@ function Register(props) {
 
   function handelSubmit(e) {
     e.preventDefault();
-    mestoAuth.register(email, password).then((data) => {
-      if (data) {
-        resetForm();
-        props.onSubmiteClick();
-        history.push('/');
-        props.onInfoTooltip();
-      } else {
-        props.onSubmiteClick();
-      }
-    });
+    props.onRegistration(email, password, resetForm);
   };
 
   return (

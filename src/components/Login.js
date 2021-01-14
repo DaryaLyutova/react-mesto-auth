@@ -4,7 +4,7 @@ function Login(props) {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [message, setMassege] = React.useState('');
+  const [message, setMassege] = React.useState('Что-то пошло не так!');
 
   function handelEmailChange(e) {
     setEmail(e.target.value)

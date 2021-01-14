@@ -30,8 +30,24 @@ function App() {
         handeleLogin();
         history.push('/');
       } else {
-        console.log(message);
+        alert(message);
       }
+    }).catch((err) => {
+      alert(err);
+    });
+  }
+
+  function registration(email, password, resetForm) {
+    mestoAuth.register(email, password).then((data) => {
+      if (data) {
+        resetForm();
+        handleInfoTooltipOk();        
+        history.push('/sign-in');
+      } else {
+        handleInfoTooltipErr();
+      }
+    }).catch((err) => {
+      alert(err);
     });
   }
 
@@ -83,28 +99,37 @@ function App() {
     subtitle: 'Что-то пошло не так! Попробуйте ещё раз.',
   });
 
-  function handleInfoTooltip() {
+  function handleInfoTooltipOk() {
+    setIsInfoTooltip(!isInfoTooltip);
     setTooltip({
       image: okImage,
       subtitle: 'Вы успешно зарегистрировались!',
     });
   }
 
+  function handleInfoTooltipErr() {
+    setIsInfoTooltip(!isInfoTooltip);
+    setTooltip({
+      image: errorImage,
+      subtitle: 'Что-то пошло не так! Попробуйте ещё раз.',
+    });
+  }
+
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([userData, initialCards]) => {
-      setCurrentUser(userData);
-      setCards(
-        initialCards.map((item) => ({
-          _id: item._id,
-          name: item.name,
-          link: item.link,
-          likes: item.likes,
-          owner: item.owner
-        })))
-    }).catch((err) => {
-      alert(err);
-    })
+      .then(([userData, initialCards]) => {
+        setCurrentUser(userData);
+        setCards(
+          initialCards.map((item) => ({
+            _id: item._id,
+            name: item.name,
+            link: item.link,
+            likes: item.likes,
+            owner: item.owner
+          })))
+      }).catch((err) => {
+        alert(err);
+      })
   }, []);
 
   function handleEditProfileClick() {
@@ -123,9 +148,6 @@ function App() {
     setIsCardOpen(!isCardOpen);
   }
 
-  function handlesumite() {
-    setIsInfoTooltip(!isInfoTooltip);
-  }
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -203,8 +225,7 @@ function App() {
           <Switch>
             <Route path="/sign-up">
               <Register
-                onSubmiteClick={handlesumite}
-                onInfoTooltip={handleInfoTooltip} />
+                onRegistration={registration} />
             </Route>
             <Route path="/sign-in" >
               <Login onLogin={avthorizetion} />
